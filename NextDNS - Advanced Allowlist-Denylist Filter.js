@@ -3,6 +3,8 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.5
 // @description  Adds a menu icon to toggle enabled/disabled Allowlist/Denylist items.
+// @downloadURL  https://raw.githubusercontent.com/PixelSpark987/NextDNS-Advanced-Allowlist-Denylist-Filter/refs/heads/main/NextDNS%20-%20Advanced%20Allowlist-Denylist%20Filter.js
+// @updateURL    https://raw.githubusercontent.com/PixelSpark987/NextDNS-Advanced-Allowlist-Denylist-Filter/refs/heads/main/NextDNS%20-%20Advanced%20Allowlist-Denylist%20Filter.js
 // @match        https://my.nextdns.io/*/allowlist
 // @match        https://my.nextdns.io/*/denylist
 // @grant        GM_addStyle
