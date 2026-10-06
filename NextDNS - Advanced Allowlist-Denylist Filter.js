@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NextDNS - Advanced Allowlist/Denylist Filter
 // @namespace    http://tampermonkey.net/
-// @version      1.5
+// @version      1.7
 // @description  Adds a menu icon to toggle enabled/disabled Allowlist/Denylist items.
 // @downloadURL  https://raw.githubusercontent.com/PixelSpark987/NextDNS-Advanced-Allowlist-Denylist-Filter/refs/heads/main/NextDNS%20-%20Advanced%20Allowlist-Denylist%20Filter.js
 // @updateURL    https://raw.githubusercontent.com/PixelSpark987/NextDNS-Advanced-Allowlist-Denylist-Filter/refs/heads/main/NextDNS%20-%20Advanced%20Allowlist-Denylist%20Filter.js
@@ -12,10 +12,10 @@
 
 (function() {
     'use strict';
-
     // -
     // SETTINGS:
     // -
+    const INPUT_PLACEHOLDER = "Add a domain...";
     const ICON_URL = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='gray'%3E%3Cpath d='M3 4c0-.55.45-1 1-1h16c.55 0 1 .45 1 1s-.45 1-1 1H4c-.55 0-1-.45-1-1zm2 5c0-.55.45-1 1-1h12c.55 0 1 .45 1 1s-.45 1-1 1H6c-.55 0-1-.45-1-1zm3 5c0-.55.45-1 1-1h6c.55 0 1 .45 1 1s-.45 1-1 1H9c-.55 0-1-.45-1-1z'/%3E%3C/svg%3E";
 
     // 1. Inject the CSS rules that handle filtering and pagination overrides.
@@ -83,18 +83,17 @@
     document.body.setAttribute('data-show-enabled', 'true');
     document.body.setAttribute('data-show-disabled', 'true');
 
-    function injectUI(headerElement) {
-        // Find the form inside the header
-        const form = headerElement.querySelector('form');
-        if (!form) return;
+    function injectUI(targetContainer, formElement) {
+        // Reformat the target container to align items horizontally
+        targetContainer.style.display = 'flex';
+        targetContainer.style.alignItems = 'center';
+        targetContainer.style.justifyContent = 'space-between';
+        targetContainer.style.position = 'relative';
 
-        // Reformat the header to align items horizontally
-        headerElement.style.display = 'flex';
-        headerElement.style.alignItems = 'center';
-        headerElement.style.justifyContent = 'space-between';
-        headerElement.style.position = 'relative';
-        form.style.flexGrow = '1';
-        form.style.marginRight = '15px';
+        if (formElement) {
+            formElement.style.flexGrow = '1';
+            formElement.style.marginRight = '15px';
+        }
 
         // Create the clickable Icon Button
         const iconBtn = document.createElement('img');
@@ -136,8 +135,8 @@
         `;
 
         // Add them to the page!
-        headerElement.appendChild(iconBtn);
-        headerElement.appendChild(menu);
+        targetContainer.appendChild(iconBtn);
+        targetContainer.appendChild(menu);
 
         // Toggle the menu when the icon is clicked
         iconBtn.addEventListener('click', (e) => {
@@ -164,10 +163,19 @@
 
     // Monitor page changes to inject the UI components as soon as they load
     const observer = new MutationObserver(() => {
-        const targetHeaderForm = document.querySelector('.card-header form');
+        if (document.querySelector('#custom-filter-icon')) return;
 
-        if (targetHeaderForm && !document.querySelector('#custom-filter-icon')) {
-            injectUI(targetHeaderForm.parentElement);
+        // Search for all input elements and find the one matching our target placeholder setting
+        const inputs = Array.from(document.querySelectorAll('input'));
+        const targetInput = inputs.find(i => i.placeholder === INPUT_PLACEHOLDER);
+
+        if (targetInput) {
+            const form = targetInput.closest('form');
+            const container = form ? form.parentElement : targetInput.parentElement;
+
+            if (container) {
+                injectUI(container, form);
+            }
         }
     });
 
