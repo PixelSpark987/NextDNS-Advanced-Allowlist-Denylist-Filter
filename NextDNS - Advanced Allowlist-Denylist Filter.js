@@ -2,7 +2,8 @@
 // @name         NextDNS - Advanced Allowlist/Denylist Filter
 // @description  Adds a menu icon to toggle enabled/disabled Allowlist/Denylist items
 // @author       PixelSpark987 - https://is.gd/PS987
-// @version      2.0
+// @icon         https://my.nextdns.io/favicon.ico
+// @version      2.1
 // @namespace    http://tampermonkey.net/
 // @downloadURL  https://raw.githubusercontent.com/PixelSpark987/NextDNS-Advanced-Allowlist-Denylist-Filter/refs/heads/main/NextDNS%20-%20Advanced%20Allowlist-Denylist%20Filter.js
 // @updateURL    https://raw.githubusercontent.com/PixelSpark987/NextDNS-Advanced-Allowlist-Denylist-Filter/refs/heads/main/NextDNS%20-%20Advanced%20Allowlist-Denylist%20Filter.js
